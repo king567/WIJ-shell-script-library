@@ -1,4 +1,9 @@
 #!/bin/bash
+# test in apache2
+# Blog: wijtb.nctu.me
+#
+#
+# Write by WIJ
 check_extra_folder (){
 if [ -d "/etc/apache2/extra" ]; then
 	if [ -f "/etc/apache2/extra/httpd-vhosts.conf" ]; then
