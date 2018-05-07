@@ -4,7 +4,6 @@ COLOR_GREEN='\e[0;32m';
 COLOR_RED='\e[0;31m';
 COLOR_YELLOW='\033[1;93m'
 
-
 mkdir=$(mkdir -p 2> /dev/null)
 Bk_conf=$(cp /etc/samba/smb.conf /etc/samba/smb.conf.bak 2> /dev/null)
 Samba_Conf_Path=$(/etc/samba/smb 2> /dev/null)
@@ -50,14 +49,15 @@ conf="[global]
 }
 Check_install (){
 if [ -f "/usr/sbin/smbd" ]; then
-    test=1
+  test=0
 else
-    test=0
+  test=1
 fi
 }
 
 Install_samba (){
 conf_file
+Check_install
 	if [ $test -eq 1 ]; then
 	echo "installing samba"
 	apt-get install -y samba samba-common python-glade2 system-config-samba
@@ -79,7 +79,6 @@ conf_file
 		esac
 	fi
 wait
-
 echo -e "\n${COLOR_GREEN}Install Success !!!!${COLOR_REST}\n"
 read -p "Please input share folder directory : " share_folder
 read -p "Please input samba explore name : " BIOS_NAME
