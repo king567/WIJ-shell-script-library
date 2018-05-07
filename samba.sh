@@ -35,7 +35,7 @@ conf="[global]
     idmap config * : backend = tdb
 
 
-[king]
+[${NET_NAME}]
     comment = need share
     path = ${share_folder}
     valid users = ${User_Name}
@@ -85,11 +85,12 @@ read -p "Please input share folder directory : " share_folder
 read -p "Please input samba explore name : " BIOS_NAME
 read -p "Please input user name : " User_Name
 read -p "Please input samba log max size : " Log_Max_Size
+read -p "Please input samba net folder name : " NET_NAME
 share_folder=${share_folder:="/samba/anonymous"}
 BIOS_NAME=${BIOS_NAME:="WIJTB"}
 User_Name=${User_Name:="king"}
 Log_Max_Size=${Log_Max_Size:="1000"}
-
+NET_NAME=${NET_NAME:="king"}
 $conf > $Samba_Conf_File
 if [ -d "${share_folder}" ]; then
     echo "Directory ${share_folder} exists."
@@ -109,7 +110,6 @@ else
 adduser $User_Name && passwd $User_Name && smbpasswd -a $User_Name
 fi
 
-
 echo "setting firewall"
 if [ command -v firewalld > /dev/null 2>&1 ]; then 
   echo 'Use firewalld' 
@@ -125,6 +125,13 @@ echo "starting samba service"
 	systemctl restart smbd.service
 wait
 echo -e "\n${COLOR_GREEN}Starting Samba Service Success !!!${COLOR_REST}\n"
+
+##IPV4 Check
+ListIPcmd="/sbin/ifconfig"
+IP=$($ListIPcmd | grep 'inet addr:' | grep -v '127.0.0.1' | awk '{print $2}' | awk -F:  '{print $2}')
+echo -e "\nthis is windows samba information\n"
+echo -e "\n${COLOR_GREEN}"'  \\''\\'"${IP}\\${NET_NAME}{COLOR_REST}\n"
+
 }
 
 Unstall_Samba (){
