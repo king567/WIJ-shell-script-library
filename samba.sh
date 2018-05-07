@@ -55,6 +55,7 @@ else
     test=0
 fi
 }
+
 Install_samba (){
 conf_file
 	if [ $test -eq 1 ]; then
@@ -101,7 +102,13 @@ chmod -R 0770 $share_folder
 chown -R king:king $share_folder
 
 echo "adding Samba User"
+Check_User_Exist=$(cat /etc/passwd | grep -o $User_Name | head -n 1)
+if [ "$Check_User_Exist" ==  $User_Name ]; then
 smbpasswd -a $User_Name
+else
+adduser $User_Name && passwd $User_Name && smbpasswd -a $User_Name
+fi
+
 
 echo "setting firewall"
 if [ command -v firewalld > /dev/null 2>&1 ]; then 
