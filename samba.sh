@@ -9,6 +9,7 @@ mkdir=${mkdir -p}
 Bk_conf=$(cp /etc/samba/smb.conf /etc/samba/smb.conf.bak 2> /dev/null)
 Samba_Conf_Path=$(/etc/samba/smb 2> /dev/null)
 Samba_Conf_File=$(/etc/samba/smb.conf 2> /dev/null)
+
 conf_file (){
 conf="[global]
     dos charset = cp950
@@ -48,12 +49,21 @@ conf="[global]
     guest ok = Yes"
 }
 Check_install (){
-apt-get install -y samba samba-common python-glade2 system-config-samba
+if [ -f "/usr/sbin/smbd" ]; then
+    test=1
+else
+    test=0
+fi
 }
 Install_samba (){
 conf_file
-
+if [ $test -eq 1 ]; then
 apt-get install -y samba samba-common python-glade2 system-config-samba
+elif [ $test -eq 0 ]; then
+apt-get remove --purge -y samba samba-common python-glade2 system-config-samba && apt-get install -y samba samba-common python-glade2 system-config-samba
+fi
+wait
+echo -e "\n${COLOR_GREEN}Install Success !!!!${COLOR_REST}\n"
 read -p "Please input share folder directory : " share_folder
 read -p "Please input samba explore name : " BIOS_NAME
 read -p "Please input user name : " User_Name
@@ -64,18 +74,51 @@ User_Name=${User_Name:="king"}
 Log_Max_Size=${Log_Max_Size:="1000"}
 
 $conf > $Samba_Conf_File
+if [ -d "${share_folder}" ]; then
+    echo "Directory ${share_folder} exists."
+else
+    echo "Directory ${share_folder} does not exists."
+	echo "createing folder...."
+	$mkdir $share_folder
+fi
+chmod -R 0770 $share_folder
+chown -R king:king $share_folder
 
+echo "adding Samba User"
+smbpasswd -a $User_Name
+
+echo "setting firewall"
+if [ command -v firewalld > /dev/null 2>&1 ]; then 
+  echo 'Use firewalld' 
+	firewall-cmd --zone=public --add-service samba
+	firewall-cmd --zone=public --permanent --add-service samba 
+elif [ command -v ufw > /dev/null 2>&1 ]; then 
+  echo 'Use ufw' 
+	ufw allow Samba
+else
+  echo -e "\n${COLOR_RED}We do not know what firewall you use !!!${COLOR_REST}\n"
+fi
+echo "starting samba service"
+	systemctl restart smbd.service
+wait
+echo -e "\n${COLOR_GREEN}Starting Samba Service Success !!!${COLOR_REST}\n"
 }
 
-
+Unstall_Samba (){
+apt-get remove --purge samba samba-common python-glade2 system-config-samba
+}
 echo "(1).Install samba"
-echo "(2).Exit"
+echo "(2).Unstall samba"
+echo "(3).Exit"
 read -p "Please Input Number (1-8):" choice
 	case ${choice} in
 	1)	
 		Install_samba
 	;;
-	2)	break
+	2)
+		Unstall_Samba
+	;;
+	3)	break
 	;;
 	*)
 	echo -e "\n${COLOR_RED}Error Input Please Try Again${COLOR_REST}\n"
