@@ -57,12 +57,28 @@ fi
 }
 Install_samba (){
 conf_file
-if [ $test -eq 1 ]; then
-apt-get install -y samba samba-common python-glade2 system-config-samba
-elif [ $test -eq 0 ]; then
-apt-get remove --purge -y samba samba-common python-glade2 system-config-samba && apt-get install -y samba samba-common python-glade2 system-config-samba
-fi
+	if [ $test -eq 1 ]; then
+	echo "installing samba"
+	apt-get install -y samba samba-common python-glade2 system-config-samba
+	elif [ $test -eq 0 ]; then
+	echo "samba service had been exists"
+	echo "(1).Reinstall samba"
+	echo "(2).Exit"
+	read -p "Please Input Number (1-2):" choice
+		case ${choice} in
+		1)	
+			apt-get remove --purge -y samba samba-common python-glade2 system-config-samba && apt-get install -y samba samba-common python-glade2 system-config-samba
+		;;
+		2)
+			break
+		;;
+		*)
+		echo -e "\n${COLOR_RED}Error Input Please Try Again${COLOR_REST}\n"
+		;;
+		esac
+	fi
 wait
+
 echo -e "\n${COLOR_GREEN}Install Success !!!!${COLOR_REST}\n"
 read -p "Please input share folder directory : " share_folder
 read -p "Please input samba explore name : " BIOS_NAME
