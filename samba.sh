@@ -5,7 +5,7 @@ COLOR_RED='\e[0;31m';
 COLOR_YELLOW='\033[1;93m'
 
 
-mkdir=${mkdir -p}
+mkdir=$(mkdir -p 2> /dev/null)
 Bk_conf=$(cp /etc/samba/smb.conf /etc/samba/smb.conf.bak 2> /dev/null)
 Samba_Conf_Path=$(/etc/samba/smb 2> /dev/null)
 Samba_Conf_File=$(/etc/samba/smb.conf 2> /dev/null)
@@ -140,7 +140,7 @@ apt-get remove --purge samba samba-common python-glade2 system-config-samba
 echo "(1).Install samba"
 echo "(2).Unstall samba"
 echo "(3).Exit"
-read -p "Please Input Number (1-8):" choice
+read -p "Please Input Number (1-3):" choice
 	case ${choice} in
 	1)	
 		Install_samba
