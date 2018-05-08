@@ -7,7 +7,7 @@ COLOR_YELLOW='\033[1;93m'
 mkdir=$(mkdir -p 2> /dev/null)
 Bk_conf=$(cp /etc/samba/smb.conf /etc/samba/smb.conf.bak 2> /dev/null)
 Samba_Conf_Path=$(/etc/samba/smb 2> /dev/null)
-Samba_Conf_File=$(/etc/samba/smb.conf 2> /dev/null)
+Samba_Conf_File="/etc/samba/smb.conf"
 
 Ask_answer (){
 read -p "Please input share folder directory : " share_folder
@@ -97,7 +97,7 @@ Check_install
 wait
 echo -e "\n${COLOR_GREEN}Install Success !!!!${COLOR_REST}\n"
 
-echo "${conf}" > /etc/samba/smb.conf
+echo "${conf}" > "${Samba_Conf_File}"
 if [ -d "${share_folder}" ]; then
     echo "Directory ${share_folder} exists."
 else
@@ -117,11 +117,14 @@ adduser $User_Name && passwd $User_Name && smbpasswd -a $User_Name
 fi
 
 echo "setting firewall"
-if [ command -v firewalld > /dev/null 2>&1 ]; then 
+
+firwalld=$(command -v firewalld 2>/dev/null)
+ufw=$(command -v ufw 2>/dev/null)
+if [ $firewalld > /dev/null 2>&1 ]; then 
   echo 'Use firewalld' 
 	firewall-cmd --zone=public --add-service samba
 	firewall-cmd --zone=public --permanent --add-service samba 
-elif [ command -v ufw > /dev/null 2>&1 ]; then 
+elif [ $ufw > /dev/null 2>&1 ]; then 
   echo 'Use ufw' 
 	ufw allow Samba
 else
