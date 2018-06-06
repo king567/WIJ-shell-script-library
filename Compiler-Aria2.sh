@@ -138,7 +138,7 @@ Extract_aria2 ()
 mkdir -p ~/aria2_${aria2_version}_128thread
 if [ -f "./src/aria2c" ]; then
 cp ./src/aria2c  ~/aria2_${aria2_version}_128thread
-strip -s ~/aria2_${aria2_version}_128thread/aria2c
+strip -s ~/aria2_${aria2_version}_128thread/aria2c || arm-linux-gnueabihf-strip -s ~/aria2_${aria2_version}_128thread/aria2c
 echo -n ${greenf}"\n aria2c 放置在 aria2_${aria2_version}_128thread 目錄底下\n"${reset}
 elif [ -f "./src/aria2c.exe" ]; then
 cp ./src/aria2c.exe  ~/aria2_${aria2_version}_128thread
