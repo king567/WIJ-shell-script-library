@@ -103,7 +103,7 @@ case ${platform} in
 		echo -n ${greenf}"\n配置成功\n"${reset}
 		echo "配置編譯環境"
 		cd aria2-${aria2_version}
-		wget --no-check-certificate -qO- https://raw.githubusercontent.com/q3aql/aria2-static-builds/master/build-scripts/gnu-linux-arm-rbpi-config/${arm_rbpi_config}
+		wget --no-check-certificate -qO- https://raw.githubusercontent.com/q3aql/aria2-static-builds/master/build-scripts/gnu-linux-arm-rbpi-config/${arm_rbpi_config} > ${arm_rbpi_config}
 		chmod +x ${arm_rbpi_config}
 		./${arm_rbpi_config}
 		rm -rf ${arm_rbpi_config}
