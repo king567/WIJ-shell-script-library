@@ -1,0 +1,134 @@
+#!/bin/bash
+#######ftp一鍵腳本
+#######使用平台ubuntu
+#######腳本作者wijtb
+Ubuntu_ftp_conf_path="/etc/vsftpd.conf"
+
+initializeANSI()
+{
+  esc=""
+
+  blackf="${esc}[30m";   redf="${esc}[31m";    greenf="${esc}[32m"
+  yellowf="${esc}[33m"   bluef="${esc}[34m";   purplef="${esc}[35m"
+  cyanf="${esc}[36m";    whitef="${esc}[37m"
+  
+  blackb="${esc}[40m";   redb="${esc}[41m";    greenb="${esc}[42m"
+  yellowb="${esc}[43m"   blueb="${esc}[44m";   purpleb="${esc}[45m"
+  cyanb="${esc}[46m";    whiteb="${esc}[47m"
+
+  boldon="${esc}[1m";    boldoff="${esc}[22m"
+  italicson="${esc}[3m"; italicsoff="${esc}[23m"
+  ulon="${esc}[4m";      uloff="${esc}[24m"
+  invon="${esc}[7m";     invoff="${esc}[27m"
+
+  reset="${esc}[0m"
+}
+Firewall()
+{
+firwalld=$(command -v firewalld 2>/dev/null)
+ufw=$(command -v ufw 2>/dev/null)
+if [ $firewalld > /dev/null 2>&1 ]; then 
+  echo 'Use firewalld' 
+	firewall-cmd --zone=public --add-service=ftp
+	firewall-cmd --permanent --zone=public --add-service=ftp
+elif [ $ufw > /dev/null 2>&1 ]; then 
+  echo 'Use ufw' 
+	ufw allow 20
+	ufw allow 21
+else
+  echo 'Use iptables'
+	iptables -A INPUT -i enxb827eb8be83c -p tcp -m tcp --dport 21 -j ACCEPT
+	iptables -A INPUT -i enxb827eb8be83c -p tcp -m tcp --dport 20 -j ACCEPT
+	iptables -A OUTPUT -o enxb827eb8be83c -p tcp -m tcp --sport 21 -j ACCEPT
+	iptables -A OUTPUT -o enxb827eb8be83c -p tcp -m tcp --sport 20 -j ACCEPT
+fi
+}
+Download_Vsftpd()
+{
+if [ -f "/usr/sbin/vsftpd" ]
+echo -n ${redf}"\n已檢測到安裝vsftpd\n"${reset}
+echo -n ${greenf}"\n(1).解除安裝vsftpd\n"${reset}
+echo -n ${greenf}"\n(2).重新安裝vsftpd\n"${reset}
+read -p "請輸入選項(1-2):" Re_install_vsftpd
+	case ${Re_install_vsftpd} in
+	   1)
+			apt-get remove --purge vsftpd -y
+		 ;;
+	   2)
+			apt-get remove --purge vsftpd -y && apt-get install vsftpd -y
+		 ;;
+	   *)
+		 echo -n ${redf}"\n輸入錯誤選項\n"${reset}
+		 echo -n ${redf}"\n請再輸入一次\n"${reset}
+		 ;;
+	esac
+else
+	apt-get install vsftpd -y
+echo -n ${greenf}"\n安裝成功\n"${reset}
+fi
+}
+Simple_ftp()
+{
+echo "請選擇ftp類型"
+echo "(1).主動式"
+echo "(2).被動式"
+read -p "請輸入選項(1-2):" ftp_type
+case ${ftp_type} in
+   1)
+		
+     ;;
+   2)
+		
+     ;;
+   *)
+     echo "輸入錯誤選項"
+     ;;
+esac
+}
+Sed_conf_file()
+{
+######開啟listen
+sed -i 's/listen=NO/listen=YES/g' ${Ubuntu_ftp_conf_path}
+######關閉listen
+sed -i 's/listen=YES/listen=NO/g' ${Ubuntu_ftp_conf_path}
+######開起監聽listen_ipv6
+sed -i 's/listen_ipv6=NO/listen_ipv6=YES/g' ${Ubuntu_ftp_conf_path}
+######關閉監聽listen_ipv6
+sed -i 's/listen_ipv6=YES/listen_ipv6=NO/g' ${Ubuntu_ftp_conf_path}
+######開啟寫入
+sed -i 's/write_enable=NO/write_enable=YES/g' ${Ubuntu_ftp_conf_path}
+######關閉寫入
+sed -i 's/write_enable=YES/write_enable=NO/g' ${Ubuntu_ftp_conf_path}
+}
+
+Uninstall_Vsftpd()
+{
+apt-get remove --purge vsftpd -y
+}
+echo "請選擇ftp類型"
+echo "(1).安裝vsftpd"
+echo "(2).一般類型ftp"
+echo "(3).外顯式ftp(ftpes)"
+echo "(4).解除安裝vsftpd"
+echo "(5).更新腳本"
+read -p "請輸入選項(1-5):" platform
+case ${platform} in
+   1)
+		Download_Vsftpd
+     ;;
+   2)
+		Simple_ftp
+     ;;
+   3)
+		echo "testing"
+     ;;
+   4)
+		Uninstall_Vsftpd
+     ;;
+   5)
+		Uninstall_Vsftpd
+     ;;
+   *)
+     echo "輸入錯誤選項"
+     ;;
+esac
