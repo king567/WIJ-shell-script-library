@@ -134,6 +134,9 @@ Update_script()
 wget --no-check-certificate -qO- https://raw.githubusercontent.com/king567/WIJ-shell-script-library/master/ftp_onclick.sh > $0
 echo -n ${greenf}"\n更新成功\n"${reset}
 }
+
+initializeANSI
+
 echo "請選擇ftp類型"
 echo "(1).安裝vsftpd"
 echo "(2).一般類型ftp"
