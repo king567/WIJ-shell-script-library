@@ -102,6 +102,7 @@ pasv_enable=YES" > ${Ubuntu_ftp_conf_path}
 read -p "請輸入使用者名稱：" User_Name
 adduser ${User_Name}
 passwd ${User_Name}
+mkdir -p /etc/vsftpd
 echo ${User_Name} >> /etc/vsftpd/chroot_list
      ;;
    2)
