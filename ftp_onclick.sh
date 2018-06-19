@@ -105,6 +105,12 @@ Uninstall_Vsftpd()
 {
 apt-get remove --purge vsftpd -y
 }
+
+Update_script()
+{
+wget --no-check-certificate -qO- https://raw.githubusercontent.com/king567/WIJ-shell-script-library/master/ftp_onclick.sh > $0
+echo -n ${greenf}"\n更新成功\n"${reset}
+}
 echo "請選擇ftp類型"
 echo "(1).安裝vsftpd"
 echo "(2).一般類型ftp"
@@ -126,7 +132,7 @@ case ${platform} in
 		Uninstall_Vsftpd
      ;;
    5)
-		Uninstall_Vsftpd
+		Update_script
      ;;
    *)
      echo "輸入錯誤選項"
