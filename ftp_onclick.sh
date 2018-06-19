@@ -45,7 +45,7 @@ fi
 }
 Download_Vsftpd()
 {
-if [ -f "/usr/sbin/vsftpd" ]
+if [ -f "/usr/sbin/vsftpd" ]; then
 echo -n ${redf}"\n已檢測到安裝vsftpd\n"${reset}
 echo -n ${greenf}"\n(1).解除安裝vsftpd\n"${reset}
 echo -n ${greenf}"\n(2).重新安裝vsftpd\n"${reset}
@@ -126,7 +126,7 @@ case ${platform} in
 		Simple_ftp
      ;;
    3)
-		echo "testing"
+		echo "testing king"
      ;;
    4)
 		Uninstall_Vsftpd
