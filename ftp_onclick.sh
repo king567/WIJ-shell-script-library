@@ -92,7 +92,7 @@ xferlog_std_format=YES
 listen=NO
 listen_ipv6=YES
 pam_service_name=vsftpd
-userlist_enable=YES
+userlist_enable=NO
 tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
 read -p "請輸入使用者名稱：" User_Name
 adduser ${User_Name}
