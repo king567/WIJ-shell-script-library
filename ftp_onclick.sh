@@ -93,12 +93,7 @@ listen=NO
 listen_ipv6=YES
 pam_service_name=vsftpd
 userlist_enable=YES
-tcp_wrappers=YES
-chroot_local_user=YES
-chroot_list_enable=YES
-chroot_list_file=/etc/vsftpd/chroot_list  
-connect_from_port_20=NO
-pasv_enable=YES" > ${Ubuntu_ftp_conf_path}
+tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
 read -p "請輸入使用者名稱：" User_Name
 adduser ${User_Name}
 passwd ${User_Name}
