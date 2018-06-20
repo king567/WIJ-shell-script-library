@@ -100,6 +100,7 @@ adduser ${User_Name}
 passwd ${User_Name}
 mkdir -p /etc/vsftpd
 echo ${User_Name} >> /etc/vsftpd/chroot_list
+systemctl restart vsftpd.service
      ;;
    2)
 		echo "anonymous_enable=NO
@@ -122,6 +123,7 @@ listen_ipv6=NO
 pam_service_name=vsftpd
 userlist_enable=NO
 tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
+systemctl restart vsftpd.service
      ;;
    3)
 		echo "anonymous_enable=NO
@@ -144,6 +146,7 @@ listen_ipv6=NO
 pam_service_name=vsftpd
 userlist_enable=NO
 tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
+systemctl restart vsftpd.service
      ;;	 
    *)
      echo "輸入錯誤選項"
