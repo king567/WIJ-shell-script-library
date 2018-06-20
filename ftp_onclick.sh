@@ -106,7 +106,7 @@ echo ${User_Name} >> /etc/vsftpd/chroot_list
 chroot_list_enable=YES
 chroot_list_file=/etc/vsftpd/chroot_list
 chroot_local_user=YES
-pasv_enable=NO
+pasv_enable=YES
 anonymous_enable=NO
 local_enable=YES
 write_enable=YES
