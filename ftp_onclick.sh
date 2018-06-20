@@ -72,6 +72,7 @@ Simple_ftp()
 echo "請選擇ftp類型"
 echo "(1).主動式"
 echo "(2).被動式"
+echo "(2).主被動合用"
 read -p "請輸入選項(1-2):" ftp_type
 case ${ftp_type} in
    1)
@@ -79,8 +80,8 @@ case ${ftp_type} in
 chroot_list_enable=YES
 chroot_list_file=/etc/vsftpd/chroot_list
 chroot_local_user=YES
-connect_from_port_20=NO
-pasv_enable=YES
+connect_from_port_20=YES
+pasv_enable=NO
 anonymous_enable=NO
 local_enable=YES
 write_enable=YES
@@ -101,8 +102,45 @@ mkdir -p /etc/vsftpd
 echo ${User_Name} >> /etc/vsftpd/chroot_list
      ;;
    2)
-		
+		echo "anonymous_enable=NO
+chroot_list_enable=YES
+chroot_list_file=/etc/vsftpd/chroot_list
+chroot_local_user=YES
+pasv_enable=NO
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+dirmessage_enable=YES
+xferlog_enable=YES
+connect_from_port_20=NO
+xferlog_std_format=YES
+listen=NO
+listen_ipv6=YES
+pam_service_name=vsftpd
+userlist_enable=NO
+tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
      ;;
+   3)
+		echo "anonymous_enable=NO
+chroot_list_enable=YES
+chroot_list_file=/etc/vsftpd/chroot_list
+chroot_local_user=YES
+pasv_enable=YES
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+dirmessage_enable=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+xferlog_std_format=YES
+listen=NO
+listen_ipv6=YES
+pam_service_name=vsftpd
+userlist_enable=NO
+tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
+     ;;	 
    *)
      echo "輸入錯誤選項"
      ;;
