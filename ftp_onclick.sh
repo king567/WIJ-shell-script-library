@@ -3,7 +3,8 @@
 #######使用平台ubuntu
 #######腳本作者wijtb
 Ubuntu_ftp_conf_path="/etc/vsftpd.conf"
-
+check_user="$(cat /etc/passwd | grep -o ${User_Name} | head -n 1)"
+check_chroot_user="$(cat /etc/vsftpd/chroot_list | grep -o ${User_Name} | head -n 1)"
 initializeANSI()
 {
   esc=""
@@ -69,8 +70,6 @@ fi
 }
 Simple_ftp()
 {
-check_user="$(cat /etc/passwd | grep -o ${User_Name} | head -n 1)"
-check_chroot_user="$(cat /etc/vsftpd/chroot_list | grep -o ${User_Name} | head -n 1)"
 echo "請選擇ftp類型"
 echo "(1).主動式"
 echo "(2).被動式"
