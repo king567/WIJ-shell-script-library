@@ -3,8 +3,11 @@
 #######使用平台ubuntu
 #######腳本作者wijtb
 Ubuntu_ftp_conf_path="/etc/vsftpd.conf"
+Check_List()
+{
 check_user="$(cat /etc/passwd | grep -o ${User_Name} | head -n 1)"
 check_chroot_user="$(cat /etc/vsftpd/chroot_list | grep -o ${User_Name} | head -n 1)"
+}
 initializeANSI()
 {
   esc=""
@@ -70,6 +73,7 @@ fi
 }
 Simple_ftp()
 {
+Check_List
 echo "請選擇ftp類型"
 echo "(1).主動式"
 echo "(2).被動式"
@@ -98,7 +102,7 @@ userlist_enable=NO
 tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
 read -p "請輸入使用者名稱：" User_Name
 echo "檢查使用者.."
-if [ "${User_Name}" == "${check_user}" ]; then 
+if [ "${check_user}" == "${User_Name}" ]; then 
 echo "使用者已存在.."
 else
 adduser ${User_Name}
