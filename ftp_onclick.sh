@@ -95,9 +95,9 @@ listen_ipv6=NO
 pam_service_name=vsftpd
 userlist_enable=NO
 tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
+read -p "請輸入使用者名稱：" User_Name
 check_user="$(cat /etc/passwd | grep -o ${User_Name} | head -n 1)"
 check_chroot_user="$(cat /etc/vsftpd/chroot_list | grep -o ${User_Name} | head -n 1)"
-read -p "請輸入使用者名稱：" User_Name
 echo "檢查使用者.."
 if [ "${check_user}" == "${User_Name}" ]; then 
 echo "使用者已存在.."
