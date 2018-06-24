@@ -68,7 +68,6 @@ fi
 }
 Simple_ftp()
 {
-Check_List
 echo "請選擇ftp類型"
 echo "(1).主動式"
 echo "(2).被動式"
