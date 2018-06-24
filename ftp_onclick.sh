@@ -99,7 +99,7 @@ tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
 read -p "請輸入使用者名稱：" User_Name
 echo "檢查使用者.."
 if [ "${check_user}" == "${User_Name}" ]; then
-echo "使用者已存在"
+echo "使用者已存在.."
 else
 adduser ${User_Name}
 passwd ${User_Name}
