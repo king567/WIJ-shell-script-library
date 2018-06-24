@@ -98,7 +98,7 @@ userlist_enable=NO
 tcp_wrappers=YES" > ${Ubuntu_ftp_conf_path}
 read -p "請輸入使用者名稱：" User_Name
 echo "檢查使用者.."
-if [ "${check_user}" == "${User_Name}" ]; then
+if [ "$User_Name" == "$check_user" ]; then 
 echo "使用者已存在.."
 else
 adduser ${User_Name}
@@ -106,7 +106,7 @@ passwd ${User_Name}
 fi
 mkdir -p /etc/vsftpd
 echo "檢查chroot list使用者"
-if [ "${check_user}" == "${User_Name}" ]; then
+if [ "$check_user" == "$User_Name" ]; then
 echo "使用者已存在chroot list"
 else
 echo ${User_Name} >> /etc/vsftpd/chroot_list
