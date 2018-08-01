@@ -32,7 +32,7 @@ echo ""
 echo -n $greenf "Success access" $reset
 echo ""
 echo ""
-cat auth.log.* | grep Accepted | grep publickey | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' | sort | uniq -c | sort -n -r
+cat auth.log* | grep Accepted | grep publickey | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' | sort | uniq -c | sort -n -r
 echo ""
 }
 Found_Country()
