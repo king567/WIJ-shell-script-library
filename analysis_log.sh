@@ -1,4 +1,6 @@
 #!/bin/bash
+IPV4_format='[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+'
+Log_Path='/var/log/auth.log*'
 initializeANSI()
 {
   esc=""
@@ -25,14 +27,14 @@ echo ""
 echo -n $redf "fasle access" $reset
 echo ""
 echo ""
-cat /var/log/auth.log* | grep  error | grep  maximum | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' | sort | uniq -c | sort -n -r
+cat ${Log_Path} | grep  error | grep  maximum | grep -o ${IPV4_format} | sort | uniq -c | sort -n -r
 echo ""
 
 #success
 echo -n $greenf "Success access" $reset
 echo ""
 echo ""
-cat auth.log* | grep Accepted | grep publickey | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' | sort | uniq -c | sort -n -r
+cat auth.log* | grep Accepted | grep publickey | grep -o ${IPV4_format} | sort | uniq -c | sort -n -r
 echo ""
 }
 Found_Country()
@@ -41,7 +43,7 @@ echo ""
 echo -n $redf "fasle access" $reset
 echo ""
 echo ""
-tmp=`cat /var/log/auth.log* | grep  error | grep  maximum | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' | sort | uniq -w 16 | sort -n -r `
+tmp=`cat ${Log_Path} | grep  error | grep  maximum | grep -o ${IPV4_format} | sort | uniq -w 16 | sort -n -r `
 
 echo -e "$tmp" > tmp
 count=`wc -l tmp | sed 's/ tmp//g'`
@@ -54,7 +56,7 @@ echo ""
 echo -n $greenf "Success access" $reset
 echo ""
 echo ""
-tmp_two=`cat /var/log/auth.log* | grep Accepted | grep publickey | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' | sort | uniq -w 16 | sort -n -r `
+tmp_two=`cat ${Log_Path} | grep Accepted | grep publickey | grep -o ${IPV4_format} | sort | uniq -w 16 | sort -n -r `
 
 echo -e "$tmp_two" > tmp2
 count_two=`wc -l tmp2 | sed 's/ tmp2//g'`
