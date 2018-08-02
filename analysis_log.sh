@@ -55,7 +55,7 @@ analyis_ip()
   cat ${Log_Path} | Fasle_Grep | grep -o ${IPV4_format} | Order
   #success
   echo -e $Success_text
-  cat auth.log* | Success_Grep | grep -o ${IPV4_format} | Order
+  cat ${Log_Path} | Success_Grep | grep -o ${IPV4_format} | Order
   echo ""
 }
 
