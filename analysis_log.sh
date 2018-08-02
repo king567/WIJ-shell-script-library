@@ -26,7 +26,7 @@ IPV4_format='[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+'
 Log_Path='/var/log/auth.log*'
 Fasle_text="${redf} \nfasle access\n ${reset}"
 Success_text="${greenf} \nSuccess access\n ${reset}"
-
+Country_API="https://ip.cn/index.php?ip="
 
 analyis_ip()
 {
@@ -48,7 +48,7 @@ Found_Country()
   for (( i=1; i<=$count; i++ ))
   do
     count_ip=`sed -n ${i}p tmp`
-        curl -s "https://ip.cn/index.php?ip=${count_ip}"
+        curl -s "${Country_API}${count_ip}"
   done
   echo -e $Success_text
   tmp_two=`cat ${Log_Path} | grep Accepted | grep publickey | grep -o ${IPV4_format} | sort | uniq -w 16 | sort -n -r `
@@ -58,7 +58,7 @@ Found_Country()
   for (( i=1; i<=$count_two; i++ ))
   do
     count_ip2=`sed -n ${i}p tmp2`
-        curl -s "https://ip.cn/index.php?ip=${count_ip2}"
+        curl -s "${Country_API}${count_ip2}"
   done
   echo ""
   rm -f tmp
