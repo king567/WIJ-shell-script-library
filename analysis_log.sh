@@ -80,7 +80,7 @@ read -p "請輸入選項(1-3) :" choose
        2)
 			Found_Country
          ;;
-       2)
+       3)
 			update_shell_script
          ;;
        *)
