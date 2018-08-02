@@ -28,21 +28,41 @@ Fasle_text="${redf} \nfasle access\n ${reset}"
 Success_text="${greenf} \nSuccess access\n ${reset}"
 Country_API="https://ip.cn/index.php?ip="
 
+######################################分析IP函數
+Success_Grep()
+{
+	grep Accepted | grep publickey
+}
+
+Fasle_Grep()
+{
+	grep error | grep maximum
+}
+
+Order()
+{
+	sort | uniq -c | sort -n -r
+}
+Order_Country()
+{
+	sort | uniq -w 16 | sort -n -r
+}
+######################################
 analyis_ip()
 {
   echo -e $Fasle_text
   #Fasle
-  cat ${Log_Path} | grep  error | grep  maximum | grep -o ${IPV4_format} | sort | uniq -c | sort -n -r
+  cat ${Log_Path} | Fasle_Grep | grep -o ${IPV4_format} | Order
   #success
   echo -e $Success_text
-  cat auth.log* | grep Accepted | grep publickey | grep -o ${IPV4_format} | sort | uniq -c | sort -n -r
+  cat auth.log* | Success_Grep | grep -o ${IPV4_format} | Order
   echo ""
 }
 
 Found_Country()
 {
   echo -e $Fasle_text
-  tmp=`cat ${Log_Path} | grep  error | grep  maximum | grep -o ${IPV4_format} | sort | uniq -w 16 | sort -n -r `
+  tmp=`cat ${Log_Path} | Fasle_Grep | grep -o ${IPV4_format} | Order_Country `
   echo -e "$tmp" > tmp
   count=`wc -l tmp | sed 's/ tmp//g'`
   for (( i=1; i<=$count; i++ ))
@@ -51,7 +71,7 @@ Found_Country()
         curl -s "${Country_API}${count_ip}"
   done
   echo -e $Success_text
-  tmp_two=`cat ${Log_Path} | grep Accepted | grep publickey | grep -o ${IPV4_format} | sort | uniq -w 16 | sort -n -r `
+  tmp_two=`cat ${Log_Path} | Success_Grep | grep -o ${IPV4_format} | Order_Country `
 
   echo -e "$tmp_two" > tmp2
   count_two=`wc -l tmp2 | sed 's/ tmp2//g'`
