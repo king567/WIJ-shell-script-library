@@ -64,18 +64,25 @@ Found_Country()
   rm -f tmp
   rm -f tmp2
 }
-
+update_shell_script ()
+{
+wget --no-check-certificate -qO- https://raw.githubusercontent.com/king567/WIJ-shell-script-library/master/analysis_log.sh > $0
+echo -e ${greenf}"\n更新成功\n"${reset}
+}
 echo "(1).analysis ip"
 echo "(2).Ip Country Name"
-read -p "請輸入選項(1-2) :" choose
+echo "(3).更新腳本"
+read -p "請輸入選項(1-3) :" choose
     case ${choose} in
        1)
-          analyis_ip
+			analyis_ip
          ;;
        2)
-        Found_Country
+			Found_Country
          ;;
-
+       2)
+			update_shell_script
+         ;;
        *)
          echo "輸入錯誤選項"
          ;;
