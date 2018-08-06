@@ -89,10 +89,15 @@ update_shell_script ()
 wget --no-check-certificate -qO- https://raw.githubusercontent.com/king567/WIJ-shell-script-library/master/analysis_log.sh > $0
 echo -e ${greenf}"\n更新成功\n"${reset}
 }
+Found_try_account ()
+{
+${Log_Path} | cut -c 1-40 --complement | grep Invalid | sed 's/ //g' | sed 's/Invaliduser//g' | sed 's/from/ from/g' | sed 's/from[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+port[0-9]\+//g' | sort | uniq -c | sort -n -r 
+}
 echo "(1).analysis ip"
 echo "(2).Ip Country Name"
-echo "(3).更新腳本"
-read -p "請輸入選項(1-3) :" choose
+echo "(3).查詢被嘗試的帳號"
+echo "(4).更新腳本"
+read -p "請輸入選項(1-4) :" choose
     case ${choose} in
        1)
 			analyis_ip
@@ -101,6 +106,9 @@ read -p "請輸入選項(1-3) :" choose
 			Found_Country
          ;;
        3)
+			Found_try_account
+         ;;
+       4)
 			update_shell_script
          ;;
        *)
