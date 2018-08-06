@@ -91,6 +91,7 @@ echo -e ${greenf}"\n更新成功\n"${reset}
 }
 Found_try_account ()
 {
+echo -e $Fasle_text
 cat ${Log_Path} | cut -c 1-40 --complement | grep Invalid | sed 's/ //g' | sed 's/Invaliduser//g' | sed 's/from/ from/g' | sed 's/from[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+port[0-9]\+//g' | sort | uniq -c | sort -n -r 
 }
 echo "(1).analysis ip"
